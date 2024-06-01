@@ -11,19 +11,25 @@ from rest_framework.views import APIView
 Author, Post = get_concrete_models()
 
 
-class ListCreateAuthorAPIView(APIView):
+class AuthorListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+    # pagination_class = PageNumberPagination
+    # filter_backends = [DjangoFilterBackend, OrderingFilter]
+    ordering_fields = ['name', 'date_of_birth']
+    ordering = ['date_of_birth']
 
-    def get(self, request):
-        authors = Author.objects.all()
-        serializer = AuthorSerializer(authors, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    # def get(self, request):
+    #     authors = Author.objects.all()
+    #     serializer = AuthorSerializer(authors, many=True)
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def post(self, request):
-        serializer = AuthorSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # def post(self, request):
+    #     serializer = AuthorSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class AuthorListCreateView(generics.ListAPIView):

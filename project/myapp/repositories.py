@@ -1,12 +1,12 @@
 import os
-from .models.sqlite import Author as SQLiteAuthor, Post as SQLPost
+from .models.postgres import Author as PostgresAuthor, Post as PostgresPost
 from .models.mongo import Author as MongoAuthor, Post as MongoPost
 
 
 def get_concrete_models():
     db_type = os.environ.get('DATABASE_TYPE', 'mongo')
-    if db_type == 'sqlite':
-        return SQLiteAuthor, SQLPost
+    if db_type == 'postgres':
+        return PostgresAuthor, PostgresPost
     elif db_type == 'mongo':
         return MongoAuthor, MongoPost
     else:
